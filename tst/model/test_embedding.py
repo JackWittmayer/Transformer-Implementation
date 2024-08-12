@@ -1,16 +1,24 @@
-from src.model.embedding import Embedding
+from model.embedding import Embedding
 import torch
+from torch import nn
 
 
 def test_embedding():
-    SAMPLE_X = torch.tensor([[3, 2, 0, 1], [1, 2, 3, 0]], dtype=torch.int32)
-    torch.manual_seed(25)
+    x = torch.tensor([[3, 2, 0, 1], [1, 2, 3, 0]], dtype=torch.int32)
     vocab_size = 4
-    embedding = Embedding(vocab_size, 4)
-    print("weight:", embedding.table.weight)
-    print("SAMPLE_X: ", SAMPLE_X)
-    output = embedding(SAMPLE_X)
-    print("output:", output)
-    for j in range(len(output)):
-        for i in range(vocab_size):
-            assert output[j, i, :].eq(embedding.table.weight[SAMPLE_X[j, i]]).all()
+    d_embedding = 4
+    embedding = Embedding(vocab_size, d_embedding)
+    embedding.table.weight = nn.Parameter(
+        torch.tensor(
+            [[0, 0, 0, 0], [1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3]], dtype=torch.float
+        )
+    )
+    output = embedding(x)
+    expected_output = torch.tensor(
+        [
+            [[3, 3, 3, 3], [2, 2, 2, 2], [0, 0, 0, 0], [1, 1, 1, 1]],
+            [[1, 1, 1, 1], [2, 2, 2, 2], [3, 3, 3, 3], [0, 0, 0, 0]],
+        ],
+        dtype=torch.float,
+    )
+    torch.testing.assert_close(output, expected_output)

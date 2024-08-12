@@ -1,5 +1,5 @@
 import torch
-from src.model.unembedding import Unembedding
+from model.unembedding import Unembedding
 
 
 def test_unembedding():

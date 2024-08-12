@@ -1,5 +1,5 @@
 import torch
-from src.model.positional_embedding import PositionalEmbedding
+from model.positional_embedding import PositionalEmbedding
 
 
 def test_positional_embedding():

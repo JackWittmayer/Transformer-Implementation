@@ -1,5 +1,5 @@
 import torch
-from src.model.layer_norm import LayerNorm
+from model.layer_norm import LayerNorm
 
 
 def test_layer_norm():

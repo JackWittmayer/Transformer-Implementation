@@ -1,5 +1,5 @@
 import torch
-from src.model.feed_forward import FeedForward
+from model.feed_forward import FeedForward
 
 
 def test_feed_forward():

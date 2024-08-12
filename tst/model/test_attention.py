@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from src.model.attention import MultiHeadedAttention, MaskStrategy
+from model.attention import MultiHeadedAttention, MaskStrategy
 
 def test_attention():
     d_attn = 4
