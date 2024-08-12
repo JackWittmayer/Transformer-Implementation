@@ -1,7 +1,6 @@
 from enum import Enum
 from torch import nn
 import torch
-import logging
 import math
 
 
@@ -85,53 +84,30 @@ class MultiHeadedAttention(nn.Module):
             else:
                 device = torch.device("cpu")
             mask = torch.tril(torch.ones(length_x, length_z) == 1).to(device)
-            logging.debug(f"{padding_mask.shape=}")
-            logging.debug(f"{mask=}")
             mask = mask & padding_mask
-            logging.debug(f"{mask=}")
         mask = mask.unsqueeze(1)
-        logging.debug(f"{mask=}")
-        logging.debug(f"{mask.shape=}")
         v_out = self.attention(queries, keys, values, mask, self.dropout)
-        logging.debug(f"{v_out.shape=}")
         assert v_out.shape == (
             batch_size,
             self.num_heads,
             length_x,
             self.d_mid / self.num_heads,
         )
-        logging.debug(f"{v_out=}")
-        logging.debug(f"{v_out.shape=}")
         v_out = v_out.transpose(1, 2).reshape(batch_size, length_x, -1)
-        logging.debug(f"{v_out.shape=}")
-        logging.debug(f"{v_out=}")
         output = self.weight_out(v_out)
-        logging.debug(f"{output.shape=}")
         assert output.shape == (batch_size, length_x, self.d_out)
         return output
 
     @staticmethod
     def attention(queries, keys, values, mask, dropout):
-        logging.debug(f"{queries=}")
-        logging.debug(f"{keys=}")
-        logging.debug(f"{values=}")
         keys_transposed = torch.transpose(keys, -2, -1)
-        logging.debug(f"{keys_transposed=}")
         scores = torch.matmul(queries, keys_transposed)
         # assert scores.shape == (keys.shape[0], keys.shape[-1], queries.shape[-1])
-        logging.debug(f"{scores=}")
-        logging.debug(f"{scores.shape=}")
-        logging.debug(f"{mask.shape=}")
         scores = scores.masked_fill(mask == 0, -1e9)
-        logging.debug(f"{scores=}")
         d_attn = keys.shape[-1]
         scaled_scores = scores / math.sqrt(d_attn)
-        logging.debug(f"{scaled_scores=}")
         softmax_scores = torch.softmax(scaled_scores, -1)
         softmax_scores = dropout(softmax_scores)
-        logging.debug(f"{softmax_scores=}")
-        logging.debug(f"{softmax_scores.shape=}")
-        logging.debug(f"{values=}")
         v_out = torch.matmul(softmax_scores, values)
         return v_out
 

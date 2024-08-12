@@ -4,7 +4,6 @@ import torch.nn as nn
 from embedding import Embedding
 from unembedding import Unembedding
 from positional_embedding import PositionalEmbedding
-import logging
 
 
 # For some reason the Pytorch transformer doesn't have its own embedding layers. Adding them here.
@@ -49,11 +48,9 @@ class ExtendedPytorchTransformer(nn.Module):
         )
         tgt_sequence = self.embedding_dropout(tgt_sequence)
         tgt_mask = self.get_tgt_mask(tgt_sequence.shape[1], tgt_sequence.shape[1], device)
-        logging.debug(f"{tgt_sequence.shape=}")
         src_mask = ~src_mask.bool()
         tgt_mask = ~tgt_mask.bool()
         tgt_key_padding_mask = ~tgt_key_padding_mask.bool()
-        logging.debug(f"{tgt_mask.shape=}")
         transformer_out = self.transformer(
             src_sequence,
             tgt_sequence,
@@ -61,10 +58,8 @@ class ExtendedPytorchTransformer(nn.Module):
             tgt_key_padding_mask=tgt_key_padding_mask,
             tgt_mask=tgt_mask,
         )
-        logging.debug(f"{transformer_out=}")
         return self.unembedding(transformer_out)
 
     def get_tgt_mask(self, length_x, length_z, device):
         mask = torch.tril(torch.ones(length_x, length_z) == 1).to(device)
-        logging.debug(f"{mask.shape=}")
         return mask

@@ -1,5 +1,4 @@
-import torch.nn as nn
-
+from torch import nn
 
 class Unembedding(nn.Module):
     def __init__(self, vocab_size, embedding_size):

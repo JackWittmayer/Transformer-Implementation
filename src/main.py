@@ -1,5 +1,6 @@
 import torch
 from torch.utils.data import DataLoader
+from torch import nn
 
 from model.encoder_decoder_transformer import EncoderDecoderTransformer
 from training.trainer import train_model
@@ -15,6 +16,7 @@ def main():
         device = torch.device("cuda")
     else:
         device = torch.device("cpu")
+
     num_encoder_layers = 4
     num_decoder_layers = 4
     num_heads = 8
@@ -65,8 +67,8 @@ def main():
     train_dataset = train_and_validation_sequence_datasets.train_dataset
     val_dataset = train_and_validation_sequence_datasets.val_dataset
     pad_collate = PadCollate(enRawName, deRawName, vocab_size, vocab_size)
-    train_dataloader = DataLoader(train_dataset, batch_size=128, collate_fn=pad_collate)
-    val_dataloader = DataLoader(val_dataset, batch_size=128, collate_fn=pad_collate)
+    train_dataloader = DataLoader(train_dataset, batch_size=256, collate_fn=pad_collate)
+    val_dataloader = DataLoader(val_dataset, batch_size=256, collate_fn=pad_collate)
     train_model(
         custom_encoder_decoder_transformer,
         train_dataloader,
