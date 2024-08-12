@@ -2,3 +2,4 @@
 **/__pycache__/
 multi30kDeTrain.txt_tokenizer
 multi30kEnTrain.txt_tokenizer
+src/encoder_decoder_transformer_state_dict*
