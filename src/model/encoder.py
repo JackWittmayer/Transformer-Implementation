@@ -5,9 +5,7 @@ from .feed_forward import FeedForward
 
 
 class EncoderLayer(nn.Module):
-    def __init__(
-        self, num_heads, d_attn, d_x, d_z, d_out, d_mid, d_mlp, p_dropout
-    ):
+    def __init__(self, num_heads, d_attn, d_x, d_z, d_out, d_mid, d_mlp, p_dropout):
         super().__init__()
         self.multi_head_attention = MultiHeadedAttention(
             num_heads,
@@ -17,7 +15,7 @@ class EncoderLayer(nn.Module):
             d_out,
             d_mid,
             MaskStrategy["UNMASKED"],
-            p_dropout
+            p_dropout,
         )
         self.layer_norm1 = LayerNorm(d_z)
         self.feed_forward = FeedForward(d_mlp, d_z, p_dropout)
@@ -33,16 +31,7 @@ class EncoderLayer(nn.Module):
 
 class Encoder(nn.Module):
     def __init__(
-        self,
-        num_layers,
-        num_heads,
-        d_attn,
-        d_x,
-        d_z,
-        d_out,
-        d_mid,
-        d_mlp,
-        p_dropout
+        self, num_layers, num_heads, d_attn, d_x, d_z, d_out, d_mid, d_mlp, p_dropout
     ):
         super().__init__()
         self.layers = []

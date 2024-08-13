@@ -2,6 +2,7 @@ import torch
 from torch import nn
 from model.attention import MultiHeadedAttention, MaskStrategy
 
+
 def test_attention():
     d_attn = 4
     length_x = 4
@@ -14,9 +15,7 @@ def test_attention():
     values = torch.rand(batch_size, length_z, d_out)
     mask = torch.tril(torch.ones(length_x, length_z) == 1)
 
-    v_out = MultiHeadedAttention.attention(
-        queries, keys, values, mask, nn.Dropout(0.1)
-    )
+    v_out = MultiHeadedAttention.attention(queries, keys, values, mask, nn.Dropout(0.1))
     assert v_out.shape == (batch_size, length_x, d_out)
 
 

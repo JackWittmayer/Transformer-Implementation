@@ -1,5 +1,6 @@
 from torch import nn
 
+
 class Unembedding(nn.Module):
     def __init__(self, vocab_size, embedding_size):
         super().__init__()

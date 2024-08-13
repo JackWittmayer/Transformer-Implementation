@@ -1,7 +1,5 @@
 import torch
 from torch.utils.data import DataLoader
-from torch import nn
-
 from model.encoder_decoder_transformer import EncoderDecoderTransformer
 from training.trainer import train_model
 from dataset.train_and_validation_sequence_datasets import (
@@ -43,7 +41,7 @@ def main():
     tensor.float()
     vocab_size = 10000
     train_and_validation_sequence_datasets = TrainAndValidationSequenceDatasets(
-        enRawName, deRawName, vocab_size, vocab_size, 0, 28250, 28250, 29000
+        enRawName, deRawName, 0, 28250, 28250, 29000
     )
     custom_encoder_decoder_transformer = EncoderDecoderTransformer(
         num_encoder_layers,
@@ -73,7 +71,6 @@ def main():
         custom_encoder_decoder_transformer,
         train_dataloader,
         val_dataloader,
-        pad_collate.src_tokenizer,
         pad_collate.tgt_tokenizer,
         device,
         state_dict_filename

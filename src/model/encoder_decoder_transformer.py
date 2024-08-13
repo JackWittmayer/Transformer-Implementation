@@ -22,7 +22,7 @@ class EncoderDecoderTransformer(nn.Module):
         vocab_size,
         max_sequence_length,
         p_dropout,
-        device
+        device,
     ):
         super().__init__()
         self.src_embedding = Embedding(vocab_size, d_e)
@@ -39,7 +39,7 @@ class EncoderDecoderTransformer(nn.Module):
             d_out,
             d_mid,
             d_mlp,
-            p_dropout
+            p_dropout,
         )
         self.decoder = Decoder(
             num_decoder_layers,
@@ -50,7 +50,7 @@ class EncoderDecoderTransformer(nn.Module):
             d_out,
             d_mid,
             d_mlp,
-            p_dropout
+            p_dropout,
         )
 
     def forward(self, z, x, src_mask, tgt_mask):

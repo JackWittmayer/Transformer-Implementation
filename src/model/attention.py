@@ -11,15 +11,7 @@ class MaskStrategy(Enum):
 
 class MultiHeadedAttention(nn.Module):
     def __init__(
-        self,
-        num_heads,
-        d_attn,
-        d_x,
-        d_z,
-        d_out,
-        d_mid,
-        maskStrategy,
-        p_dropout
+        self, num_heads, d_attn, d_x, d_z, d_out, d_mid, maskStrategy, p_dropout
     ):
         super().__init__()
         self.num_heads = num_heads

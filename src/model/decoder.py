@@ -5,19 +5,10 @@ from .feed_forward import FeedForward
 
 
 class DecoderLayer(nn.Module):
-    def __init__(
-        self, num_heads, d_attn, d_x, d_z, d_out, d_mid, d_mlp, p_dropout
-    ):
+    def __init__(self, num_heads, d_attn, d_x, d_z, d_out, d_mid, d_mlp, p_dropout):
         super().__init__()
         self.multi_head_self_attention = MultiHeadedAttention(
-            num_heads,
-            d_attn,
-            d_x,
-            d_z,
-            d_out,
-            d_mid,
-            MaskStrategy["MASKED"],
-            p_dropout
+            num_heads, d_attn, d_x, d_z, d_out, d_mid, MaskStrategy["MASKED"], p_dropout
         )
         self.layer_norm1 = LayerNorm(d_x)
         self.multi_head_global_attention = MultiHeadedAttention(
@@ -28,7 +19,7 @@ class DecoderLayer(nn.Module):
             d_out,
             d_mid,
             MaskStrategy["UNMASKED"],
-            p_dropout
+            p_dropout,
         )
         self.layer_norm2 = LayerNorm(d_x)
         self.feed_forward = FeedForward(d_mlp, d_x, p_dropout)
@@ -49,16 +40,7 @@ class DecoderLayer(nn.Module):
 
 class Decoder(nn.Module):
     def __init__(
-        self,
-        num_layers,
-        num_heads,
-        d_attn,
-        d_x,
-        d_z,
-        d_out,
-        d_mid,
-        d_mlp,
-        p_dropout
+        self, num_layers, num_heads, d_attn, d_x, d_z, d_out, d_mid, d_mlp, p_dropout
     ):
         super().__init__()
         self.layers = []

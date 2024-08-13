@@ -38,7 +38,9 @@ class ExtendedPytorchTransformer(nn.Module):
         self.embedding_dropout = nn.Dropout(p_dropout)
         self.positionalEmbedding = PositionalEmbedding(d_model, max_sequence_length)
 
-    def forward(self, src_sequence, tgt_sequence, src_mask, tgt_key_padding_mask, device):
+    def forward(
+        self, src_sequence, tgt_sequence, src_mask, tgt_key_padding_mask, device
+    ):
         src_sequence = self.src_embedding(src_sequence) + self.positionalEmbedding(
             src_sequence
         )
@@ -47,7 +49,9 @@ class ExtendedPytorchTransformer(nn.Module):
             tgt_sequence
         )
         tgt_sequence = self.embedding_dropout(tgt_sequence)
-        tgt_mask = self.get_tgt_mask(tgt_sequence.shape[1], tgt_sequence.shape[1], device)
+        tgt_mask = self.get_tgt_mask(
+            tgt_sequence.shape[1], tgt_sequence.shape[1], device
+        )
         src_mask = ~src_mask.bool()
         tgt_mask = ~tgt_mask.bool()
         tgt_key_padding_mask = ~tgt_key_padding_mask.bool()

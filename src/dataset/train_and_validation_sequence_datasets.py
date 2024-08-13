@@ -6,8 +6,6 @@ class TrainAndValidationSequenceDatasets:
         self,
         src_filename,
         tgt_filename,
-        src_vocab_size,
-        tgt_vocab_size,
         train_start_index,
         train_end_index,
         val_start_index,
@@ -22,13 +20,8 @@ class TrainAndValidationSequenceDatasets:
             src_text, tgt_text, val_start_index, val_end_index
         )
 
-        # load doc into memory
-
     def load_doc(self, filename):
-        # open the file as read only
         file = open(filename, mode="rt")
-        # read all text
         text = file.read()
-        # close the file
         file.close()
         return text
