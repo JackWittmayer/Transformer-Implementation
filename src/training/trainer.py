@@ -131,3 +131,37 @@ def train_model(
                 break
         print()
         print()
+
+def predict_from_tokens(model, input, src_tokenizer, tgt_tokenizer, device):
+    model.disable_subsequent_mask()
+    src_tokenizer.no_padding()
+    tgt_tokenizer.no_padding()
+
+    src_tokenizer.no_truncation()
+    tgt_tokenizer.no_truncation()
+    src_sequence = input
+    print(src_sequence)
+    src_sequence = src_tokenizer.encode(src_sequence)
+    print(src_sequence)
+    print(src_tokenizer.decode(src_sequence.ids))
+    src_sequence = torch.IntTensor(src_sequence.ids).unsqueeze(0).to(device)
+    print("src tokens", src_sequence)
+    tgt_sequence = torch.IntTensor([0]).unsqueeze(0).to(device)
+    src_mask = torch.ones(src_sequence.shape, dtype=torch.int32).to(device)
+    print("decoder input", tgt_sequence)
+    predictions = []
+    with torch.no_grad():
+        model.eval()
+        length_gen = 100
+        for i in range(length_gen):
+            tgt_mask = torch.ones(tgt_sequence.shape, dtype=torch.int32).to(device)
+            prediction = model(src_sequence, tgt_sequence, src_mask, tgt_mask)
+            prediction = torch.softmax(prediction, -1)
+            prediction = torch.argmax(prediction, dim=-1)
+            print("argmax prediction:", prediction)
+            print("actual prediction:", tgt_tokenizer.decode(prediction[0].tolist()))
+            last_token = prediction[0][-1]
+            tgt_sequence = torch.cat((tgt_sequence, last_token.unsqueeze(0).unsqueeze(0)), dim=-1)
+            if last_token == 1:
+                break
+    return tgt_sequence

@@ -10,10 +10,7 @@ class SequencePairDataset(Dataset):
 
     def __init__(self, src_text, tgt_text, start_index, end_index):
         src_sequences = self.to_sequences(src_text, start_index, end_index)
-        # tgt_sequences = self.to_sequences(tgt_text, start_index, end_index)
         tgt_sequences = self.to_sequences(tgt_text, start_index, end_index)
-        # src_sequences = [self.add_special_tokens(sequence) for sequence in src_sequences]
-        # tgt_sequences = [self.add_special_tokens(sequence) for sequence in tgt_sequences]
         self.pairs = self.pair_sequences(src_sequences, tgt_sequences)
 
     def pair_sequences(self, src_sequences, tgt_sequences):

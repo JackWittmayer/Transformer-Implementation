@@ -1,7 +1,7 @@
 import torch
 from torch.utils.data import DataLoader
 from model.encoder_decoder_transformer import EncoderDecoderTransformer
-from training.trainer import train_model
+from training.trainer import train_model, predict_from_tokens
 from dataset.train_and_validation_sequence_datasets import (
     TrainAndValidationSequenceDatasets,
 )
@@ -27,8 +27,8 @@ def main():
     d_e = 256
     max_sequence_length = 100
     p_dropout = 0.1
-    enRawName = "../multi30kEnTrain.txt"
-    deRawName = "../multi30kDeTrain.txt"
+    enRawName = "../multi30kEnAll.txt"
+    deRawName = "../multi30kDeAll.txt"
     saveDirectory = "./"
     nameSuffix = ""
     state_dict_filename = (
@@ -41,7 +41,7 @@ def main():
     tensor.float()
     vocab_size = 10000
     train_and_validation_sequence_datasets = TrainAndValidationSequenceDatasets(
-        enRawName, deRawName, 0, 28250, 28250, 29000
+        enRawName, deRawName, 0, 29000, 29000, 30014
     )
     custom_encoder_decoder_transformer = EncoderDecoderTransformer(
         num_encoder_layers,
@@ -76,6 +76,8 @@ def main():
         state_dict_filename
     )
 
+    predict_from_tokens(custom_encoder_decoder_transformer, "A man eats an apple in the park.", pad_collate.src_tokenizer, pad_collate.tgt_tokenizer, device)
+    
 
 if __name__ == "__main__":
     main()
