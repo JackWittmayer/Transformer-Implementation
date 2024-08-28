@@ -1,7 +1,7 @@
 # Jack's Encoder-Decoder Transformer Implementation
 I reimplemented the original encoder-decoder transformer from the [Attention Is All You Need paper](https://arxiv.org/abs/1706.03762) as a big first step in understanding generative AI.
 
-I will be writing a blog post soon detailing my process writing and training this model, and what I learned from it.
+I wrote a blog post about what I learned reimplementing this model: [Things I wish I had known before reimplementing a Transformer from scratch](https://medium.com/@jtwittmayer/things-i-wish-i-had-known-before-reimplementing-a-transformer-from-scratch-42d215f31141)
 
 ## How do I run the code?
 ### Running in Google Colab (recommended)
